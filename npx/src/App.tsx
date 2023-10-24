@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import "./App.css";
+
+interface Item {
+	id: number;
+	name: string;
+}
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [items, setItems] = useState<Item[]>([]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get("http://localhost:5000/api/items", { withCredentials: true });
+				console.log(response.data);
+				setItems(response.data);
+			} catch (error) {
+				console.error("Error fetching data:", error);
+			}
+		};
+		// Fetch data from the Flask backend
+		fetchData();
+	}, []);
+
+	return (
+		<div className="App">
+			<h1>Items from Python Backend</h1>
+			<ul>
+				{items.map((item) => (
+					<li key={item.id}>{item.name}</li>
+				))}
+			</ul>
+		</div>
+	);
 }
 
 export default App;
