@@ -45,5 +45,6 @@
 	"proxy": "http://localhost:5000",
 	"devDependencies": {
 		"@types/cors": "^2.8.15"
-	}
+	},
+	"homepage": "https://spatial-eli.github.io/reactWithPython/frontend"
 }
